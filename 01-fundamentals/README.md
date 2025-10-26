@@ -25,7 +25,7 @@ Going beyond this limit triggers a "Context length exceeded" error.
 
 ```bash
 ++++++++++++++++++++++++    +++++++++++++++++++++++    ++++++++++++++++++++++++++
-| LLM (Gemini Pro)      | => | Context Window (1M) | => | 500 GB (Internal Data) |
+| LLM (Gemini Pro)     | => | Context Window (1M) | => | 500 GB (Internal Data) |
 ++++++++++++++++++++++++    +++++++++++++++++++++++    ++++++++++++++++++++++++++
 ```
 
@@ -53,3 +53,36 @@ Support Issues => |              | <= Multistep Interaction
 
 Langchain acts as the framework that connects various data sources—such as company policies, product information, and support issues—with the chatbot. It manages conversation history, retrieves relevant knowledge, and enables complex, multistep interactions, allowing the chatbot to deliver informed and context-aware responses.
 
+Langchain is a well established abstraction layer which helps you to build AI agents with minimal code.
+
+Langchain provides essential abstractions for building AI applications, including:
+
+- APIs for interacting with LLMs
+- Memory management for conversation history
+- Interfaces for vector databases
+- Embedding pipelines for semantic search
+- Tool routing and orchestration
+- State management
+
+Additionally, Langchain supports integration with external tools, enabling connections to web search, local file systems, databases, and more.
+
+```python
+from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+from langchain_chroma import Chroma
+from langchain.memory import ConversationBufferMemory
+from langchain.chains import ConversationalRetrievalChain
+
+llm = ChatOpenAI(model="gpt-3.5-turbo")
+memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
+embedding = OpenAIEmbeddings()
+db = Chroma(collection_name="techops_docs", embedding_function=embedding)
+
+qa_chain = ConversationalRetrievalChain.from_llm(
+    llm=llm,
+    retriever=db.as_retriever(),
+    memory=memory
+)
+
+response = qa_chain.run("What's company's customer data policy?")
+print(response)
+```
