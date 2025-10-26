@@ -126,3 +126,29 @@ Chat completions are OpenAI's conversational API. You send messages and receive 
 | **[0]**      | Get the first choice (You do this 99% of the time)     |
 | **message**  | The message object containing role and content         |
 | **content**  | The actual text of the AI response                     |
+
+### 5. Understanding AI Tokens and Economics
+
+Tokens are the fundamental units that AI models use to process and understand text.
+
+**Token Breakdown:**
+- Simple words: 1 token (e.g., "cat", "run")
+- Complex words: multiple tokens (e.g., "unbelievable" ≈ 3 tokens)
+- General rule: 1 token ≈ 4 characters or 0.75 words
+
+**Three Token Types:**
+
+| Token Type            | Description                                  |
+|-----------------------|----------------------------------------------|
+| **Prompt tokens**     | The input text you send to the AI            |
+| **Completion tokens** | The AI's response text                       |
+| **Total tokens**      | Combined count of prompt + completion tokens |
+
+**Pricing Structure (GPT-4o mini example):**
+
+| Token Type    | Cost per Million | Cost per 1K |
+|---------------|------------------|-------------|
+| Input tokens  | $0.80            | $0.0008     |
+| Output tokens | $3.20            | $0.0032     |
+
+**Key Insight:** Output tokens cost 4x more than input tokens, making concise responses a cost-effective strategy.
