@@ -10,16 +10,16 @@
 
 **Context Buffer (Conversation Memory)**
 
-The application or API client handles conversation storage. It keeps the complete chat history (user inputs + AI outputs) in memory outside the model. For each API request, the application builds a prompt that includes this stored conversation data.
+Applications or API clients maintain the full conversation history (user inputs and AI outputs) in memory, outside the model. For each API call, the client constructs a prompt using this stored data.
 
 **Context Window Capacity (Token Limit)**
 
-A fixed model characteristic defined by its design and training process. It sets the maximum number of tokens the model can handle at once, including:
+This is a fixed property of the model, determined by its architecture and training. It defines the maximum number of tokens the model can process at once, including:
 
 - Input tokens (chat history)
 - Output tokens (AI response)
 
-Going beyond this limit triggers a "Context length exceeded" error.
+Exceeding this limit results in a "Context length exceeded" error.
 
 ### 2. Embeddings & Vector Representations
 
@@ -29,17 +29,15 @@ Going beyond this limit triggers a "Context length exceeded" error.
 ++++++++++++++++++++++++    +++++++++++++++++++++++    ++++++++++++++++++++++++++
 ```
 
-Problem: How can an LLM process 500GB of company data when only a tiny portion fits within the context window constraints?
+Challenge: How can an LLM handle 500GB of company data when only a small portion fits within its context window?
 
-Embeddings provide the solution. They fundamentally change how we represent information. Rather than storing text as words, embeddings convert them into meaningful numerical vectors. This transformation captures semantic relationships and similarity between concepts.
+Embeddings solve this problem by converting text into numerical vectors that capture semantic meaning. Instead of storing words, embeddings represent text as lists of numbers (typically around 1,536 values), reflecting relationships and similarities between concepts.
 
-An embedding model converts text into a numerical vector — typically a list of around 1,536 values — that captures the meaning of the text.
-
-Example: the words "vacation" and "holiday" would be represented by vectors that are mathematically close to each other, since they have similar meanings.
+For example, "vacation" and "holiday" would have vectors close to each other, indicating similar meanings.
 
 ### 3. Langchain
 
-With an understanding of embeddings and LLMs, the next step is integrating these components into a cohesive system.
+With embeddings and LLMs understood, the next step is combining these elements into a working system.
 
 ```bash
                   ++++++++++++++++
@@ -51,20 +49,18 @@ Support Issues => |              | <= Multistep Interaction
                   ++++++++++++++++
 ```
 
-Langchain acts as the framework that connects various data sources—such as company policies, product information, and support issues—with the chatbot. It manages conversation history, retrieves relevant knowledge, and enables complex, multistep interactions, allowing the chatbot to deliver informed and context-aware responses.
+Langchain is a framework that connects data sources—like company policies, product info, and support issues—to the chatbot. It manages conversation history, retrieves relevant knowledge, and supports complex interactions, enabling context-aware responses.
 
-Langchain is a well established abstraction layer which helps you to build AI agents with minimal code.
+Langchain provides key abstractions for building AI applications, such as:
 
-Langchain provides essential abstractions for building AI applications, including:
-
-- APIs for interacting with LLMs
-- Memory management for conversation history
+- APIs for LLM interaction
+- Memory management for conversations
 - Interfaces for vector databases
 - Embedding pipelines for semantic search
 - Tool routing and orchestration
 - State management
 
-Additionally, Langchain supports integration with external tools, enabling connections to web search, local file systems, databases, and more.
+It also integrates with external tools, allowing connections to web search, file systems, databases, and more.
 
 ```python
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
@@ -86,3 +82,47 @@ qa_chain = ConversationalRetrievalChain.from_llm(
 response = qa_chain.run("What's company's customer data policy?")
 print(response)
 ```
+
+### 4. First API Call
+
+**OpenAI Models**
+
+Different models = Different AI brains. You must specify which one to pick.
+
+- GPT-4: Most advanced, but costly
+- GPT-4.1 Mini: Fast and affordable
+- GPT-3.5: Older, simpler model
+
+The openAI library provides access to these models, handling:
+
+- API key authentication
+- Sending queries to AI servers
+- Receiving responses
+
+**What is an API Client?**
+
+The client manages connections to OpenAI, handling networking so you can focus on asking questions.
+
+**What are chat completions?**
+
+Chat completions are OpenAI's conversational API. You send messages and receive AI responses, similar to texting. This is done using the `client.chat.completions.create()` function.
+
+**The three roles in the conversation**
+
+| Role          | Description                           |
+|---------------|---------------------------------------|
+| **system**    | Instructions for how AI should behave |
+| **user**      | That's you asking the question        |
+| **assistant** | The Model response                    |
+
+**Understanding API response object**
+
+`response.choices[0].message.content`
+
+| Component    | Description                                            |
+|--------------|--------------------------------------------------------|
+| **response** | The entire object from openAI                          |
+| **choices**  | Array of possible responses (AI can generate multiple) |
+| **[0]**      | Get the first choice (You do this 99% of the time)     |
+| **message**  | The message object containing role and content         |
+| **content**  | The actual text of the AI response                     |
