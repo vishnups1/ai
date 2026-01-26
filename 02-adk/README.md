@@ -1,14 +1,22 @@
-### ADK Crash Course
+# Agent Development Kit
 
-- https://github.com/bhancockio/agent-development-kit-crash-course/tree/main
-- https://www.youtube.com/watch?v=P4VFL9nIaIA
+https://github.com/bhancockio/agent-development-kit-crash-course/tree/main
 
-### ADK Documentation
+1. Create & Activate the virtual environment
 
-Events: https://google.github.io/adk-docs/events/
+```console
+uv venv .venv/adk
+```
 
-### Python Tutorials
+```console
+source .venv/adk/bin/activate
+```
 
-- Classes: https://www.youtube.com/watch?v=u4Ryk0YuW6A
-- Generators: https://www.youtube.com/watch?v=u3T7hmLthUU
-- ASGI: https://www.youtube.com/watch?v=oYrnTQAFH1Q
+2. Install packages
+
+```
+uv pip install google-adk
+uv pip install litellm
+uv pip install python-dotenv
+uv pip install google-generativeai
+```
