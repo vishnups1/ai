@@ -20,3 +20,15 @@ uv pip install litellm
 uv pip install python-dotenv
 uv pip install google-generativeai
 ```
+
+3. Environment Variables
+
+```console
+cd ~/adk_project
+cat << EOF > my_google_search_agent/.env
+GOOGLE_GENAI_USE_VERTEXAI=TRUE
+GOOGLE_CLOUD_PROJECT=YOUR_GCP_PROJECT_ID
+GOOGLE_CLOUD_LOCATION=global
+MODEL=gemini_flash_model_id
+EOF
+```
