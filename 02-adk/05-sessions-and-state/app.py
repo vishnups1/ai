@@ -51,7 +51,15 @@ async def main():
         )
 
         # 5. Process the prompt
-        # NOTE: runner.run_async is an async generator
+        # It returns an async generator object, which is also an async iterator, implementing __aiter__() and __anext__()
+        #
+        # 1. gen = runner.run_async(...)
+        # 2. iterator = gen.__aiter__()
+        # 3. while True:
+        #      try:
+        #        event = await iterator.__anext__()
+        #      except StopAsyncIteration:
+        #        break
         async for event in runner.run_async(
             user_id=user_id,
             session_id=session.id,
